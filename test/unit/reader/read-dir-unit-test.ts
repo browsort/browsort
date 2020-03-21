@@ -22,7 +22,7 @@ describe('Read Directory', () => {
         expect(files[0].extension).to.be.not.empty;
         expect(files[0].path).to.be.not.empty;
         expect(files[0].content).to.be.not.empty;
-    }).retries(0);
+    });
 
     it('should not be able to read a file as a directory', async () => {
         const reader: ReaderContract = new Reader();
