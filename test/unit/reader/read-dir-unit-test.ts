@@ -6,13 +6,23 @@ import {FileContract} from 'reader/FileContract';
 describe('Read Directory', () => {
     it('read the javascript folder', async () => {
         const reader: ReaderContract = new Reader();
-        const files: FileContract[] = await reader.dir((global as any).BASE_PATH_TEST_DATA + 'javascript/');
+        const files: FileContract[] = await reader.dir((global as any).BASE_PATH_TEST_DATA + 'javascript/', false);
         expect(files).to.have.lengthOf.at.least(1);
         expect(files[0].name).to.be.not.empty;
         expect(files[0].extension).to.equal('js');
         expect(files[0].path).to.be.not.empty;
         expect(files[0].content).to.be.not.empty;
     });
+
+    it('recursive reading', async () => {
+        const reader: ReaderContract = new Reader();
+        const files: FileContract[] = await reader.dir((global as any).BASE_PATH_TEST_DATA, true);
+        expect(files).to.have.lengthOf.at.least(1);
+        expect(files[0].name).to.be.not.empty;
+        expect(files[0].extension).to.be.not.empty;
+        expect(files[0].path).to.be.not.empty;
+        expect(files[0].content).to.be.not.empty;
+    }).retries(0);
 
     it('should not be able to read a file as a directory', async () => {
         const reader: ReaderContract = new Reader();

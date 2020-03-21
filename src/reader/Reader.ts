@@ -21,14 +21,14 @@ export class Reader implements ReaderContract {
             throw new Error(dirPath + ' does not exist or is not a directory');
         }
 
-        fs.readdirSync(dirPath).forEach((filename) => {
-            const filePath = path.resolve(dirPath, filename);
-            if (this.isDir(filePath)) {
+        fs.readdirSync(dirPath).forEach((nodeName) => {
+            const nodePath = path.resolve(dirPath, nodeName);
+            if (this.isDir(nodePath)) {
                 if (recursive) {
-                    results.concat(this.traverse(filePath, recursive, []));
+                    this.traverse(nodePath, recursive, results);
                 }
-            } else if (this.isFile(filePath)) {
-                results.push(this.fileFactory(filePath));
+            } else if (this.isFile(nodePath)) {
+                results.push(this.fileFactory(nodePath));
             }
         });
 
