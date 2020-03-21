@@ -1,0 +1,41 @@
+* text crlf=input
+* text eol=lf
+
+# source code
+*.js text
+*.ts text
+*.sh text
+*.bat text
+*.json text
+
+# git config
+.gitattributes text
+.gitignore text
+.gitconfig text
+
+# misc config
+.editorconfig text
+
+# Documentation
+*.md text
+
+# These files are binary and should be left untouched
+*.png binary
+*.jpg binary
+*.jpeg binary
+*.gif binary
+*.ico binary
+*.mov binary
+*.mp4 binary
+*.mp3 binary
+*.flv binary
+*.fla binary
+*.swf binary
+*.gz binary
+*.zip binary
+*.7z binary
+*.ttf binary
+*.eot binary
+*.woff binary
+*.pyc binary
+*.pdf binary
