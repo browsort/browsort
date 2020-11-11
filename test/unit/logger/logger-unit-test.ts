@@ -4,7 +4,7 @@ import {Logger} from 'logger/Logger';
 
 describe('Logger', () => {
     it('log a validation message', (done) => {
-        const logger: LoggerContract = new Logger();
+        const logger: LoggerContract = new Logger({});
         logger.on((log) => {
             if (log.level === 'validation') {
                 done();
@@ -14,7 +14,7 @@ describe('Logger', () => {
     });
 
     it('log an error', (done) => {
-        const logger: LoggerContract = new Logger();
+        const logger: LoggerContract = new Logger({});
         logger.on((log) => {
             if (log.level === 'error') {
                 done();
@@ -24,7 +24,7 @@ describe('Logger', () => {
     });
 
     it('log a warning message', (done) => {
-        const logger: LoggerContract = new Logger();
+        const logger: LoggerContract = new Logger({});
         logger.on((log) => {
             if (log.level === 'warning') {
                 done();
@@ -34,7 +34,7 @@ describe('Logger', () => {
     });
 
     it('log an info message', (done) => {
-        const logger: LoggerContract = new Logger();
+        const logger: LoggerContract = new Logger({});
         logger.on((log) => {
             if (log.level === 'info') {
                 done();
@@ -44,7 +44,7 @@ describe('Logger', () => {
     });
 
     it('log a debug message', (done) => {
-        const logger: LoggerContract = new Logger();
+        const logger: LoggerContract = new Logger({});
         logger.on((log) => {
             if (log.level === 'debug') {
                 done();

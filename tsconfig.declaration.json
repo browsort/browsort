@@ -1,0 +1,10 @@
+{
+    "extends": "./tsconfig.production.json",
+    "compilerOptions": {
+        "module": "amd",
+        "declaration": true,
+        "emitDeclarationOnly": true,
+        "noEmit": false,
+        "outFile": "bin/browsort.d.ts"
+    }
+}

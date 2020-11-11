@@ -2,52 +2,69 @@ import * as fs from 'fs';
 import * as path from 'path';
 import {ReaderContract} from 'reader/ReaderContract';
 import {FileContract} from 'reader/FileContract';
+import {Format} from 'reader/Format';
+import {LoggerContract} from 'logger/LoggerContract';
+import {asyncForEach} from 'tool/helpers';
 
 export class Reader implements ReaderContract {
+    public constructor(_logger: LoggerContract) {
+        // nothing
+    }
+
     public async file(filePath: string): Promise<FileContract> {
         if (!this.isFile(filePath)) {
             throw new Error(filePath + ' does not exist or is not a file');
         }
 
-        return this.fileFactory(filePath);
+        return await this.fileFactory(filePath);
     }
 
     public async dir(dirPath: string, recursive: boolean = true): Promise<FileContract[]> {
-        return this.traverse(dirPath, recursive, []);
+        return await this.traverse(dirPath, recursive);
     }
 
-    private traverse(dirPath: string, recursive: boolean, results: FileContract[] = []): FileContract[] {
+    private async traverse(dirPath: string, recursive: boolean): Promise<FileContract[]> {
         if (!this.isDir(dirPath)) {
             throw new Error(dirPath + ' does not exist or is not a directory');
         }
 
-        fs.readdirSync(dirPath).forEach((nodeName) => {
+        let results: FileContract[] = [];
+        await asyncForEach(fs.readdirSync(dirPath), async (nodeName) => {
             const nodePath = path.resolve(dirPath, nodeName);
             if (this.isDir(nodePath)) {
                 if (recursive) {
-                    this.traverse(nodePath, recursive, results);
+                    results = results.concat(await this.traverse(nodePath, recursive));
                 }
             } else if (this.isFile(nodePath)) {
-                results.push(this.fileFactory(nodePath));
+                results.push(await this.fileFactory(nodePath));
             }
         });
 
         return results;
     }
 
-    private fileFactory(filePath: string): FileContract {
-        if (!fs.existsSync(filePath)) {
-            throw new Error('file ' + filePath + ' does not exist');
-        }
+    private async fileFactory(filePath: string): Promise<FileContract> {
+        return new Promise<FileContract>((resolve, reject) => {
+            if (!fs.existsSync(filePath)) {
+                throw new Error('file ' + filePath + ' does not exist');
+            }
 
-        const extension: string = path.extname(filePath);
+            const extension: string = path.extname(filePath).substring(1);
+            const format: Format = (extension === 'js' ? Format.JS : Format.UNKNOWN);
 
-        return {
-            name: path.basename(filePath, extension),
-            extension: extension.substring(1),
-            path: path.dirname(filePath),
-            content: fs.readFileSync(filePath, 'utf8')
-        }
+            fs.readFile(filePath, 'utf-8', (error, data) => {
+                if (error) {
+                    reject(error);
+                } else {
+                    resolve({
+                        name: path.basename(filePath),
+                        path: path.dirname(filePath),
+                        format: format,
+                        content: data
+                    });
+                }
+            });
+        });
     }
 
     private isDir(dirPath: string): boolean {

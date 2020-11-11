@@ -1,0 +1,25 @@
+{
+    "extends": "./tsconfig.production.json",
+    "compilerOptions": {
+        "pretty": true,
+        "types": [
+            "mocha",
+            "node"
+        ],
+        "paths": {
+            "analyzer/*": ["src/analyzer/*"],
+            "data/*": ["src/data/*"],
+            "logger/*": ["src/logger/*"],
+            "main/*": ["src/main/*"],
+            "parser/*": ["src/parser/*"],
+            "reader/*": ["src/reader/*"],
+            "result/*": ["src/result/*"],
+            "tool/*": ["src/tool/*"],
+            "mockup/*": ["test/util/mockup/*"]
+        }
+    },
+    "include": [
+        "./src/",
+        "./test/"
+    ]
+}

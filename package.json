@@ -1,0 +1,98 @@
+{
+    "name": "browsort",
+    "description": "What browsers are supported by my application?",
+    "main": "bin/browsort.node.min.js",
+    "types": "bin/browsort.d.ts",
+    "version": "0.0.1",
+    "author": "https://github.com/pamls/",
+    "license": "SEE LICENSE IN LICENSE.txt",
+    "engines": {
+        "node": ">=10"
+    },
+    "scripts": {
+        "compat": "compat --target data/test/javascript/object.assign.js --jsEnvs chrome42",
+        "browizard": "browizard --d=data/test/javascript/polyfill/",
+        "build": "bash script/make.sh",
+        "build-cli": "rollup -c rollup.config.js",
+        "compile": "tsc -p tsconfig.development.json",
+        "compile-watch": "nodemon --config nodemon.json --exec \"(npm run compile || { exit 1; })\"",
+        "clean": "npm run clean-bin && npm run clean-doc",
+        "clean-bin": "rm -rf bin/*",
+        "clean-doc": "rm -rf doc/technical/* && rm -f doc/*.html",
+        "declaration": "tsc -p tsconfig.declaration.json",
+        "doc": "bash script/doc.sh",
+        "lint": "eslint -c .eslintrc.json src/**/*.ts test/**/*.ts",
+        "postinstall": "npm dedupe",
+        "start-data-processor": "npm run build-cli && echo - && node bin/data-processor.node.min.js",
+        "release": "bash script/release.sh",
+        "test": "mocha",
+        "test-debug": "env DEBUG=mocha:* mocha",
+        "test-watch": "nodemon --config nodemon.json --exec \"(npm run lint || { exit 1; }) && (npm run test || { exit 1; }) \"",
+        "validate": "npm run compile && npm run lint && npm run test",
+        "post-validate": "bundlesize || exit 0"
+    },
+    "dependencies": {
+        "@types/colors": "^1.2.1",
+        "@types/esprima": "^4.0.2",
+        "@types/lodash": "^4.14.149",
+        "@types/yargs": "^15.0.4",
+        "colors": "^1.4.0",
+        "esprima": "^4.0.1",
+        "lodash": "^4.17.15",
+        "yargs": "^15.3.1"
+    },
+    "devDependencies": {
+        "@types/caniuse-lite": "^1.0.0",
+        "@types/chai": "^4.2.11",
+        "@types/faker": "^4.1.10",
+        "@types/glob": "^7.1.1",
+        "@types/mocha": "^7.0.2",
+        "@types/node": "^13.9.2",
+        "@typescript-eslint/eslint-plugin": "^2.24.0",
+        "@typescript-eslint/parser": "^2.24.0",
+        "browizard": "^0.4.1",
+        "bundlesize": "^0.18.0",
+        "caniuse-lite": "^1.0.30001035",
+        "chai": "^4.2.0",
+        "compat-cli": "^0.1.4",
+        "eslint": "^6.8.0",
+        "eslint-import-resolver-typescript": "^2.0.0",
+        "eslint-plugin-import": "^2.20.1",
+        "eslint-plugin-prefer-arrow": "^1.1.7",
+        "faker": "^4.1.0",
+        "mdn-browser-compat-data": "^1.0.13",
+        "mocha": "^7.1.0",
+        "nodemon": "^2.0.2",
+        "rollup": "^1.31.1",
+        "rollup-plugin-terser": "^5.3.0",
+        "rollup-plugin-typescript2": "^0.26.0",
+        "source-map-support": "^0.5.16",
+        "ts-node": "^8.6.2",
+        "tsconfig-paths": "^3.9.0",
+        "typedoc": "^0.16.11",
+        "typedoc-plugin-markdown": "^2.2.17",
+        "typescript": "^3.8.3"
+    },
+    "homepage": "https://github.com/pamls/Browsort#readme",
+    "repository": {
+        "type": "git",
+        "url": "https://github.com/pamls/Browsort.git"
+    },
+    "bugs": {
+        "url": "https://github.com/pamls/Browsort/issues"
+    },
+    "keywords": [
+        "browser",
+        "support",
+        "compatibility",
+        "checker",
+        "caniuse"
+    ],
+    "sideEffects": false,
+    "bundlesize": [
+        {
+            "path": "bin/browsort.node.min.js",
+            "maxSize": "25 kB"
+        }
+    ]
+}

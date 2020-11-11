@@ -2,15 +2,16 @@ import {EventEmitter} from 'events';
 import * as colors from 'colors';
 import {LoggerContract} from 'logger/LoggerContract';
 import {LogContract} from 'logger/LogContract';
+import {LoggerConfigurationContract} from 'logger/LoggerConfigurationContract';
 
 export class Logger implements LoggerContract {
     private eventEmitter: EventEmitter;
-    private displayOnConsole: boolean;
+    private configuration: LoggerConfigurationContract;
 
-    public constructor(displayOnConsole: boolean = true) {
+    public constructor(configuration: LoggerConfigurationContract) {
+        this.configuration = configuration;
         this.eventEmitter = new EventEmitter();
         this.eventEmitter.setMaxListeners(10);
-        this.displayOnConsole = displayOnConsole;
         this.initDisplay();
     }
 
@@ -63,7 +64,7 @@ export class Logger implements LoggerContract {
     }
 
     private initDisplay(): void {
-        if (this.displayOnConsole) {
+        if (this.configuration.displayOnConsole) {
             colors.setTheme({
                 debug: 'gray',
                 info: 'blue',
@@ -72,10 +73,16 @@ export class Logger implements LoggerContract {
                 validation: 'green'
             });
             this.eventEmitter.on('log', (log) => {
+                let message: string = log.message;
+
+                if (Object.keys(log.extra).length > 0) {
+                    message += ': ' + JSON.stringify(log.extra);
+                }
+
                 if (typeof (colors as any)[log.level] === 'function') {
-                    console.log((colors as any)[log.level](log.message)); // eslint-disable-line no-console
+                    console.log((colors as any)[log.level](message)); // eslint-disable-line no-console
                 } else {
-                    console.log(log.message); // eslint-disable-line no-console
+                    console.log(message); // eslint-disable-line no-console
                 }
             });
         }

@@ -1,0 +1,23 @@
+# IDE
+.idea/
+.editorconfig
+
+# Packages
+node_modules/
+*.tgz
+
+# Build
+script/
+
+# Development
+src/
+nodemon.json
+tsconfig.*.json
+.gitattributes
+
+# Tests
+test/
+data/test/
+
+# Temporary
+tmp/

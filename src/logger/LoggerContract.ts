@@ -1,4 +1,4 @@
-/// <amd-module name="browsers-supported" />
+/// <amd-module name="browsort" />
 import {LogContract} from 'logger/LogContract';
 
 export interface LoggerContract {

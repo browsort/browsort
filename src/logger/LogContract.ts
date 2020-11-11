@@ -1,4 +1,4 @@
-/// <amd-module name="browsers-supported" />
+/// <amd-module name="browsort" />
 export interface LogContract {
     /** log level */
     level: 'debug' | 'info' | 'warning' | 'error' | 'validation',

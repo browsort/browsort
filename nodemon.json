@@ -1,0 +1,10 @@
+{
+    "ext": "js ts json",
+    "restartable": "rs",
+    "verbose": true,
+    "ignore": [],
+    "watch": [
+        "src/",
+        "test/"
+    ]
+}

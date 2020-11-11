@@ -1,0 +1,13 @@
+{
+    "diff": true,
+    "extension": ["ts"],
+    "package": "./package.json",
+    "require": ["ts-node/register", "tsconfig-paths/register", "source-map-support/register"],
+    "spec": ["test/test-suite-node.ts"],
+    "reporter": "spec",
+    "retries": 2,
+    "slow": 75,
+    "timeout": 500,
+    "ui": "bdd",
+    "exit": true
+}
